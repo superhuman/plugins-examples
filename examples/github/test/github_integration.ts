@@ -5,19 +5,19 @@ import {executeSyncFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/develo
 import {it} from "mocha";
 import {pack} from "../pack";
 
-describe("GitHub pack integration test", () => {
+describe("GitHub plugin integration test", () => {
   it("executes PullRequests sync", async () => {
-    // Here we execute the sync using a real http fetcher. Since this pack
+    // Here we execute the sync using a real http fetcher. Since this plugin
     // requires authentication, this requires that you've already run
-    // `coda auth examples/github/packs.ts` to set up your OAuth credentials
+    // `packs auth examples/github/pack.ts` to set up your OAuth credentials
     // for GitHub.
     let response = await executeSyncFormulaFromPackDef(
       pack,
       "PullRequests",
-      // This integration test assumes you have access to the packs-examples
+      // This integration test assumes you have access to the plugins-examples
       // repo, which you should if you're looking at this example!
       [
-        "https://github.com/coda/packs-examples",
+        "https://github.com/superhuman/plugins-examples",
         "",
         PullRequestStateFilter.All,
       ],
@@ -34,7 +34,7 @@ describe("GitHub pack integration test", () => {
     // syncing all PRs and not just open ones, to guarantee we have at least
     // one PR to examine here.
     assert.isAtLeast(response.length, 1);
-    assert.equal(response[0].Repo.Name, "packs-examples");
+    assert.equal(response[0].Repo.Name, "plugins-examples");
   });
 
   // You could similarly write an integration for the ReviewPullRequest

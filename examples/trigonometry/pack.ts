@@ -1,21 +1,21 @@
-import * as coda from "@superhuman/plugins-sdk";
+import * as sdk from "@superhuman/plugins-sdk";
 
-export const pack = coda.newPack();
+export const pack = sdk.newPack();
 
-const DegreesParameter = coda.makeParameter({
-  type: coda.ParameterType.Number,
+const DegreesParameter = sdk.makeParameter({
+  type: sdk.ParameterType.Number,
   name: "angle",
   description: "An angle measured in degrees.",
 });
 
-const RadiansParameter = coda.makeParameter({
-  type: coda.ParameterType.Number,
+const RadiansParameter = sdk.makeParameter({
+  type: sdk.ParameterType.Number,
   name: "angle",
   description: "An angle measured in radians.",
 });
 
 pack.addFormula({
-  resultType: coda.ValueType.Number,
+  resultType: sdk.ValueType.Number,
   name: "Sine",
   description: "Returns the angle (in radians) whose sine is the given number",
   parameters: [RadiansParameter],
@@ -24,7 +24,7 @@ pack.addFormula({
 });
 
 pack.addFormula({
-  resultType: coda.ValueType.Number,
+  resultType: sdk.ValueType.Number,
   name: "Cosine",
   description: "Returns the cosine of a number (in radians).",
   parameters: [RadiansParameter],
@@ -33,7 +33,7 @@ pack.addFormula({
 });
 
 pack.addFormula({
-  resultType: coda.ValueType.Number,
+  resultType: sdk.ValueType.Number,
   name: "Tangent",
   description: "Returns the tangent of a number (in radians).",
   parameters: [RadiansParameter],
@@ -42,7 +42,7 @@ pack.addFormula({
 });
 
 pack.addFormula({
-  resultType: coda.ValueType.Number,
+  resultType: sdk.ValueType.Number,
   name: "ToRadians",
   description: "Converts degrees to radians.",
   parameters: [DegreesParameter],
@@ -51,7 +51,7 @@ pack.addFormula({
 });
 
 pack.addFormula({
-  resultType: coda.ValueType.Number,
+  resultType: sdk.ValueType.Number,
   name: "ToDegrees",
   description: "Converts radians to degrees.",
   parameters: [RadiansParameter],

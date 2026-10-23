@@ -1,15 +1,15 @@
 import FormData from "form-data";
-import * as coda from "@superhuman/plugins-sdk";
 import {getFilename} from "./helpers";
 import {getUser} from "./helpers";
+import * as sdk from "@superhuman/plugins-sdk";
 import {searchFolders} from "./helpers";
 
-export const pack = coda.newPack();
+export const pack = sdk.newPack();
 
 pack.addNetworkDomain("box.com");
 
 pack.setUserAuthentication({
-  type: coda.AuthenticationType.OAuth2,
+  type: sdk.AuthenticationType.OAuth2,
   authorizationUrl: "https://account.box.com/api/oauth2/authorize",
   tokenUrl: "https://api.box.com/oauth2/token",
   getConnectionName: async function (context) {
@@ -22,20 +22,20 @@ pack.addFormula({
   name: "UploadFile",
   description: "Uploads a file to Box.",
   parameters: [
-    coda.makeParameter({
-      type: coda.ParameterType.File,
+    sdk.makeParameter({
+      type: sdk.ParameterType.File,
       name: "file",
       description: "The file to upload.",
     }),
-    coda.makeParameter({
-      type: coda.ParameterType.String,
+    sdk.makeParameter({
+      type: sdk.ParameterType.String,
       name: "filename",
       description:
         "The filename to upload to. Default: the original filename of the file.",
       optional: true,
     }),
-    coda.makeParameter({
-      type: coda.ParameterType.String,
+    sdk.makeParameter({
+      type: sdk.ParameterType.String,
       name: "folderId",
       description:
         "The ID of the folder to upload to. Default: the root folder.",
@@ -51,7 +51,7 @@ pack.addFormula({
       },
     }),
   ],
-  resultType: coda.ValueType.String,
+  resultType: sdk.ValueType.String,
   isAction: true,
   execute: async function (args, context) {
     let [fileUrl, filename, folderId = "0"] = args;

@@ -10,8 +10,8 @@ import type {TablesDateTime} from "./types";
 import type {TablesFile} from "./types";
 import type {TablesLocation} from "./types";
 import type {TablesTimestamp} from "./types";
-import * as coda from "@superhuman/plugins-sdk";
 import {getTableUrl} from "./helpers";
+import * as sdk from "@superhuman/plugins-sdk";
 
 const DriveOpenUrl = "https://drive.google.com/open";
 const NanosPerMilli = 1000000;
@@ -19,7 +19,7 @@ const MillisPerSecond = 1000;
 
 // Gets the column converter for a given column.
 export function getConverter(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   column: Column,
   table: Table,
 ): ColumnConverter<any, any> {
@@ -86,15 +86,15 @@ export function getConverter(
 abstract class ColumnConverter<T, C> {
   column: Column;
   table: Table;
-  context: coda.ExecutionContext;
+  context: sdk.ExecutionContext;
 
-  constructor(context: coda.ExecutionContext, column: Column, table: Table) {
+  constructor(context: sdk.ExecutionContext, column: Column, table: Table) {
     this.context = context;
     this.column = column;
     this.table = table;
   }
 
-  getSchema(): coda.Schema & coda.ObjectSchemaProperty {
+  getSchema(): sdk.Schema & sdk.ObjectSchemaProperty {
     let schema = this._getBaseSchema();
     schema.fromKey = this.column.id;
     schema.fixedId = this.column.id;
@@ -120,7 +120,7 @@ abstract class ColumnConverter<T, C> {
   }
 
   // Each implementation must define the base property schema.
-  abstract _getBaseSchema(): coda.Schema & coda.ObjectSchemaProperty;
+  abstract _getBaseSchema(): sdk.Schema & sdk.ObjectSchemaProperty;
 
   // Default to passing through the value as-is, in both directions.
   formatValueForSchema(value: T): C {
@@ -133,33 +133,33 @@ abstract class ColumnConverter<T, C> {
 
 class TextColumnConverter extends ColumnConverter<string, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
     });
   }
 }
 
 class NumberColumnConverter extends ColumnConverter<number, number> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Number,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Number,
     });
   }
 }
 
 class BooleanColumnConverter extends ColumnConverter<boolean, boolean> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Boolean,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Boolean,
     });
   }
 }
 
 class DateColumnConverter extends ColumnConverter<TablesDate, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.Date,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.Date,
     });
   }
 
@@ -183,9 +183,9 @@ class DateColumnConverter extends ColumnConverter<TablesDate, string> {
 
 class DateTimeColumnConverter extends ColumnConverter<TablesDateTime, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.DateTime,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.DateTime,
     });
   }
 
@@ -227,11 +227,11 @@ class DateTimeColumnConverter extends ColumnConverter<TablesDateTime, string> {
 
 class PersonColumnConverter extends ColumnConverter<string, PersonReference> {
   _getBaseSchema() {
-    return coda.makeObjectSchema({
-      codaType: coda.ValueHintType.Person,
+    return sdk.makeObjectSchema({
+      codaType: sdk.ValueHintType.Person,
       properties: {
-        name: {type: coda.ValueType.String},
-        email: {type: coda.ValueType.String, required: true},
+        name: {type: sdk.ValueType.String},
+        email: {type: sdk.ValueType.String, required: true},
       },
       displayProperty: "name",
       idProperty: "email",
@@ -252,10 +252,10 @@ class PersonColumnConverter extends ColumnConverter<string, PersonReference> {
 
 class SelectListColumnConverter extends ColumnConverter<string, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.SelectList,
-      options: coda.OptionsType.Dynamic,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.SelectList,
+      options: sdk.OptionsType.Dynamic,
     });
   }
 }
@@ -266,7 +266,7 @@ class MultiSelectListColumnConverter extends ColumnConverter<
 > {
   selectListConverter: SelectListColumnConverter;
 
-  constructor(context: coda.ExecutionContext, column: Column, table: Table) {
+  constructor(context: sdk.ExecutionContext, column: Column, table: Table) {
     super(context, column, table);
     this.selectListConverter = new SelectListColumnConverter(
       context,
@@ -276,8 +276,8 @@ class MultiSelectListColumnConverter extends ColumnConverter<
   }
 
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Array,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Array,
       items: this.selectListConverter._getBaseSchema(),
     });
   }
@@ -285,11 +285,11 @@ class MultiSelectListColumnConverter extends ColumnConverter<
 
 class DriveFilesColumnConverter extends ColumnConverter<DriveFile[], string[]> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Array,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Array,
       items: {
-        type: coda.ValueType.String,
-        codaType: coda.ValueHintType.Url,
+        type: sdk.ValueType.String,
+        codaType: sdk.ValueHintType.Url,
       },
       // Can't reasonably edit these in Coda.
       mutable: false,
@@ -298,7 +298,7 @@ class DriveFilesColumnConverter extends ColumnConverter<DriveFile[], string[]> {
 
   formatValueForSchema(value: DriveFile[]) {
     return value.map(driveFile => {
-      return coda.withQueryParams(DriveOpenUrl, {
+      return sdk.withQueryParams(DriveOpenUrl, {
         id: driveFile.id,
       });
     });
@@ -307,11 +307,11 @@ class DriveFilesColumnConverter extends ColumnConverter<DriveFile[], string[]> {
 
 class FilesColumnConverter extends ColumnConverter<TablesFile[], string[]> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Array,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Array,
       items: {
-        type: coda.ValueType.String,
-        codaType: coda.ValueHintType.Attachment,
+        type: sdk.ValueType.String,
+        codaType: sdk.ValueHintType.Attachment,
       },
       // Can't reasonably edit these in Coda.
       mutable: false,
@@ -325,8 +325,8 @@ class FilesColumnConverter extends ColumnConverter<TablesFile[], string[]> {
 
 class LocationColumnConverter extends ColumnConverter<TablesLocation, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
       // Can't reasonably edit these in Coda.
       mutable: false,
     });
@@ -342,7 +342,7 @@ class RelationshipColumnConverter extends ColumnConverter<
   RowReference
 > {
   _getBaseSchema() {
-    let referenceSchema = coda.makeReferenceSchemaFromObjectSchema(
+    let referenceSchema = sdk.makeReferenceSchemaFromObjectSchema(
       BaseRowSchema,
       "Table",
     );
@@ -369,9 +369,9 @@ class TimestampColumnConverter extends ColumnConverter<
   string
 > {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.DateTime,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.DateTime,
     });
   }
 
@@ -394,8 +394,8 @@ class TimestampColumnConverter extends ColumnConverter<
 
 class UnknownColumnConverter extends ColumnConverter<any, string> {
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.String,
+    return sdk.makeSchema({
+      type: sdk.ValueType.String,
       mutable: false,
     });
   }
@@ -414,8 +414,8 @@ class ListColumnConverter extends ColumnConverter<any[], any[]> {
   }
 
   _getBaseSchema() {
-    return coda.makeSchema({
-      type: coda.ValueType.Array,
+    return sdk.makeSchema({
+      type: sdk.ValueType.Array,
       items: this.baseConverter._getBaseSchema(),
     });
   }

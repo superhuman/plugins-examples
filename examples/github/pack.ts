@@ -1,19 +1,19 @@
-import * as coda from "@superhuman/plugins-sdk";
 import * as helpers from "./helpers";
 import * as schemas from "./schemas";
+import * as sdk from "@superhuman/plugins-sdk";
 import * as types from "./types";
 
-export const pack = coda.newPack();
+export const pack = sdk.newPack();
 
-// This tells Coda which domain the pack make requests to. Any fetcher
+// This tells Coda which domain the plugin make requests to. Any fetcher
 // requests to other domains won't be allowed.
 pack.addNetworkDomain("github.com");
 
-// The GitHub pack uses OAuth authentication, to allow each user to login
-// to GitHub via the browser when installing the pack. The pack will
+// The GitHub plugin uses OAuth authentication, to allow each user to login
+// to GitHub via the browser when installing the plugin. The plugin will
 // operate on their personal data.
 pack.setUserAuthentication({
-  type: coda.AuthenticationType.OAuth2,
+  type: sdk.AuthenticationType.OAuth2,
   // As outlined in https://docs.github.com/en/free-pro-team@latest/developers/apps/authorizing-oauth-apps,
   // these are the urls for initiating OAuth authentication and doing
   // token exchange.
@@ -27,7 +27,7 @@ pack.setUserAuthentication({
   // so we specify a non-default tokenPrefix here.
   tokenPrefix: "token",
   // These are the GitHub-specific scopes the user will be prompted to
-  // authorize in order for the functionality in this pack to succeed.
+  // authorize in order for the functionality in this plugin to succeed.
   scopes: ["read:user", "repo"],
   // This is a simple formula that makes an API call to GitHub to find
   // the name of the user associated with the OAuth access token. This
@@ -40,16 +40,16 @@ pack.setUserAuthentication({
 });
 
 // A parameter that identifies a PR to review using its url.
-const PullRequestUrlParameter = coda.makeParameter({
-  type: coda.ParameterType.String,
+const PullRequestUrlParameter = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "pullRequestUrl",
   description:
     'The URL of the pull request. For example, "https://github.com/[org]/[repo]/pull/[id]".',
 });
 
 // A parameter that indicates what action to take on the review.
-const PullRequestReviewActionTypeParameter = coda.makeParameter({
-  type: coda.ParameterType.String,
+const PullRequestReviewActionTypeParameter = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "actionType",
   description:
     "Type of review action. One of Approve, Comment or Request Changes",
@@ -67,8 +67,8 @@ const PullRequestReviewActionTypeParameter = coda.makeParameter({
 
 // Free-form text to be included as the review comment, if this is a Comment
 // or Request Changes action.
-const PullRequestReviewCommentParameter = coda.makeParameter({
-  type: coda.ParameterType.String,
+const PullRequestReviewCommentParameter = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "comment",
   description:
     "Comment for review. Required if review action type is Comment or Request Changes.",
@@ -78,7 +78,7 @@ const PullRequestReviewCommentParameter = coda.makeParameter({
 // We use makeObjectFormula because this formula will return a structured
 // object with multiple pieces of data about the submitted rview.
 pack.addFormula({
-  resultType: coda.ValueType.Object,
+  resultType: sdk.ValueType.Object,
   name: "ReviewPullRequest",
   description: "Review a pull request.",
   schema: schemas.PullRequestReviewResponseSchema,
@@ -95,14 +95,14 @@ pack.addFormula({
     if (actionType !== types.GitHubReviewEvent.Approve && !comment) {
       // You can throw a UserVisibleError at any point in a formula to provide
       // an error message to be displayed to the user in the UI.
-      throw new coda.UserVisibleError(
+      throw new sdk.UserVisibleError(
         "Comment parameter must be provided for Comment or Request Changes actions.",
       );
     }
 
     let payload = {body: comment, event: actionType};
     let {owner, repo, pullNumber} = helpers.parsePullUrl(pullRequestUrl);
-    let request: coda.FetchRequest = {
+    let request: sdk.FetchRequest = {
       method: "POST",
       url: helpers.apiUrl(
         `/repos/${owner}/${repo}/pulls/${pullNumber}/reviews`,
@@ -123,13 +123,13 @@ pack.addFormula({
         // user-visible errors, rather than letting these fall through as
         // uncaught errors.
         if (e.message.includes("Can not approve your own pull request")) {
-          throw new coda.UserVisibleError(
+          throw new sdk.UserVisibleError(
             "Can not approve your own pull request",
           );
         } else if (
           e.message.includes("Can not request changes on your own pull request")
         ) {
-          throw new coda.UserVisibleError(
+          throw new sdk.UserVisibleError(
             "Can not request changes on your own pull request",
           );
         }
@@ -140,7 +140,7 @@ pack.addFormula({
   examples: [
     {
       params: [
-        "https://github.com/coda/packs-examples/pull/123",
+        "https://github.com/superhuman/plugins-examples/pull/123",
         "COMMENT",
         "Some comment",
       ],
@@ -154,7 +154,7 @@ pack.addFormula({
         },
         Body: "Some comment",
         State: "COMMENTED",
-        Url: "https://github.com/coda/packs-examples/pull/123",
+        Url: "https://github.com/superhuman/plugins-examples/pull/123",
         CommitId: "ff3d90e1d62c37b93994078fad0dad37d3e",
       },
     },
@@ -162,7 +162,7 @@ pack.addFormula({
 });
 
 // This formula demonstrates the use of incremental/progressive OAuth scopes.
-// Calling this formula requires more permissions from GitHub than the pack
+// Calling this formula requires more permissions from GitHub than the plugin
 // requests at its initial installation, and Coda will guide a user through
 // an additional authorization when they try to use a formula with greater
 // permissions like this and get an error.
@@ -170,13 +170,13 @@ pack.addFormula({
   name: "UserEmail",
   description:
     "Returns the primary email address used on this user's GitHub account.",
-  resultType: coda.ValueType.String,
+  resultType: sdk.ValueType.String,
   // This formula will need this additional OAuth permission to get the email
   // address of the user.
   extraOAuthScopes: ["user:email"],
   parameters: [],
   execute: async function ([_index], context) {
-    let request: coda.FetchRequest = {
+    let request: sdk.FetchRequest = {
       method: "GET",
       url: helpers.apiUrl("/user/emails"),
     };
@@ -184,7 +184,7 @@ pack.addFormula({
     // give a 404 error, which will bubble up to Coda because there is no
     // try/catch on this fetch. When Coda sees an error from a formula like
     // that, it looks at the scopes the user is currently authenticated with
-    // compared to what scopes are requested by the pack's manifest and the
+    // compared to what scopes are requested by the plugin's manifest and the
     // formula. Here, Coda will see the extraOAuthScopes field on this
     // formula and replace the 404 error with an instruction to the user
     // to sign in again.
@@ -200,8 +200,8 @@ pack.addFormula({
 // However, a user can set up multiple sync configurations
 // and each one can individually sync from a separate repo.
 // (This is exported so that we can unittest the autocomplete formula.)
-export const RepoUrlParameter = coda.makeParameter({
-  type: coda.ParameterType.String,
+export const RepoUrlParameter = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "repoUrl",
   description:
     'The URL of the repository to list pull requests from. For example, "https://github.com/[org]/[repo]".',
@@ -211,7 +211,7 @@ export const RepoUrlParameter = coda.makeParameter({
   // over the repo name.
   autocomplete: async (context, search) => {
     let results: types.GitHubRepo[] = [];
-    let continuation: coda.Continuation | undefined;
+    let continuation: sdk.Continuation | undefined;
     do {
       let response = await helpers.getRepos(context, continuation);
       results = results.concat(...response.result);
@@ -224,19 +224,19 @@ export const RepoUrlParameter = coda.makeParameter({
     // value when a user selects a result.
     // So here, this is saying "search the `name` field of reach result, and
     // use the html_url as the value once selected".
-    return coda.autocompleteSearchObjects(search, results, "name", "html_url");
+    return sdk.autocompleteSearchObjects(search, results, "name", "html_url");
   },
 });
 
-const BaseParameterOptional = coda.makeParameter({
-  type: coda.ParameterType.String,
+const BaseParameterOptional = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "base",
   description: 'The name of the base branch. For example, "main".',
   optional: true,
 });
 
-const PullRequestStateOptional = coda.makeParameter({
-  type: coda.ParameterType.String,
+const PullRequestStateOptional = sdk.makeParameter({
+  type: sdk.ParameterType.String,
   name: "state",
   description:
     'Returns pull requests in the given state. If unspecified, defaults to "open".',

@@ -1,6 +1,6 @@
 # Box
 
-This is a small example Pack that demonstrates how to create an action formula that uploads a file to Box. The primary purpose of this example is to demonstrate how to use the `form-data` NPM library to send `multipart/form-data` payloads with the Fetcher.
+This is a small example Plugin that demonstrates how to create an action formula that uploads a file to Box. The primary purpose of this example is to demonstrate how to use the `form-data` NPM library to send `multipart/form-data` payloads with the Fetcher.
 
 ## Setup
 
@@ -12,7 +12,7 @@ as your "Redirect URIs" in order to run these examples locally. To run them
 on Coda after uploading & releasing, your authorization callback URL must change to be
 **`https://coda.io/packsAuth/oauth2/{PACK_ID}`**.
 
-Run `coda auth examples/box/pack.ts`. You'll be prompted to enter your client id
+Run `packs auth examples/box/pack.ts`. You'll be prompted to enter your client id
 and client secret, and then your browser will open and begin Box's OAuth flow.
 After the flow completes, the access token for that account will saved locally
 for use when executing formulas and syncs, so you only have to do this once. But you can
@@ -24,7 +24,7 @@ becomes invalid.
 To upload a file run:
 
 ```bash
-coda execute examples/box/pack.ts UploadFile "{FILE_URL}"
+packs execute examples/box/pack.ts UploadFile "{FILE_URL}"
 ```
 
 The file URL must be hosted on `codahosted.io`, which is where Coda stores uploaded files and images. You can test with this value:

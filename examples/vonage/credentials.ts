@@ -1,4 +1,4 @@
-// A file to hold the credentials used by the Pack.
+// A file to hold the credentials used by the Plugin.
 
 // It's not possible to use the SDK's system authentication and store these in
 // Coda directly since you need direct access to the values in order to create

@@ -1,4 +1,4 @@
-import * as coda from "@superhuman/plugins-sdk";
+import * as sdk from "@superhuman/plugins-sdk";
 import type * as types from "./types";
 
 const PULL_REQUEST_URL_REGEX =
@@ -15,14 +15,14 @@ const DEFAULT_PAGE_SIZE = 100;
 // meaningful but we do so to future-proof things.
 export function apiUrl(path: string, params?: Record<string, any>): string {
   let url = `https://api.github.com${path}`;
-  return params ? coda.withQueryParams(url, params) : url;
+  return params ? sdk.withQueryParams(url, params) : url;
 }
 
 // This formula is used in the authentication definition in pack.ts.
 // It returns a simple label for the current user's account so the account
 // can be identified in the UI.
-export async function getConnectionName(context: coda.ExecutionContext) {
-  let request: coda.FetchRequest = {
+export async function getConnectionName(context: sdk.ExecutionContext) {
+  let request: sdk.FetchRequest = {
     method: "GET",
     url: apiUrl("/user"),
     headers: {
@@ -40,7 +40,7 @@ export function parsePullUrl(url: string): {
   repo: string;
   pullNumber: string;
 } {
-  let match = coda.ensureExists(
+  let match = sdk.ensureExists(
     PULL_REQUEST_URL_REGEX.exec(url),
     "Received an invalid pull request URL",
   );
@@ -54,7 +54,7 @@ export function parsePullUrl(url: string): {
 // The user-facing formula uses a url to identify repos in a user-friendly way.
 // We parse such a url into its identifiers.
 export function parseRepoUrl(url: string): {owner: string; repo: string} {
-  let match = coda.ensureExists(
+  let match = sdk.ensureExists(
     REPO_URL_REGEX.exec(url),
     "Received an invalid repo URL",
   );
@@ -68,8 +68,8 @@ export function parseRepoUrl(url: string): {owner: string; repo: string} {
 // call this repeatedly with a continuation if the user has access to more
 // repos than can fit on one page (100).
 export async function getRepos(
-  context: coda.ExecutionContext,
-  continuation?: coda.Continuation,
+  context: sdk.ExecutionContext,
+  continuation?: sdk.Continuation,
 ) {
   let url = continuation?.nextUrl
     ? (continuation.nextUrl as string)
@@ -93,8 +93,8 @@ export async function getRepos(
 // to fetch a subsequent result page.
 export async function getPullRequests(
   [repoUrl, base, state]: any[],
-  context: coda.SyncExecutionContext,
-): Promise<coda.GenericSyncFormulaResult> {
+  context: sdk.SyncExecutionContext,
+): Promise<sdk.GenericSyncFormulaResult> {
   let {continuation} = context.sync;
   let {owner, repo} = parseRepoUrl(repoUrl);
   let params = {per_page: DEFAULT_PAGE_SIZE, base: base, state: state};
@@ -116,7 +116,7 @@ export async function getPullRequests(
 // This does some basic transformation and unnesting of a pull request
 // response object to make the response match the schema declared in
 // schemas.ts. Most of the property name remapping happens automatically
-// with the packs infrastructure because the schema declares
+// with the plugins infrastructure because the schema declares
 // `fromKey` properties in order to rename keys, so this function exists
 // mostly to do massaging beyond what can be done with `fromKey`.
 function parsePullRequest(pr: types.GitHubPullRequest) {
@@ -131,7 +131,7 @@ function parsePullRequest(pr: types.GitHubPullRequest) {
 
 // See if GitHub has given us the url of a next page of results.
 function nextUrlFromLinkHeader(
-  result: coda.FetchResponse<any>,
+  result: sdk.FetchResponse<any>,
 ): string | undefined {
   let parsedHeader =
     typeof result.headers.link === "string"
@@ -156,7 +156,7 @@ function nextUrlFromLinkHeader(
 // }
 // The npm library `parse-link-header` is useful for this purpose: https://www.npmjs.com/package/parse-link-header
 // We haven't used it here for simplicity of dependencies in this repo,
-// but it may well be helpful in your own packs.
+// but it may well be helpful in your own plugins.
 function parseLinkHeader(header: string): Record<string, string> {
   let result: Record<string, string> = {};
   let parts = header.split(/,\s*/);
