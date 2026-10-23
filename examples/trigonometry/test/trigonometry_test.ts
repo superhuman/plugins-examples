@@ -4,9 +4,9 @@ import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/developmen
 import {it} from "mocha";
 import {pack} from "../pack";
 
-describe("Trigonometry pack", () => {
+describe("Trigonometry plugin", () => {
   it("executes Cosine", async () => {
-    // Since our pack doesn't make any fetcher calls, we can very simply
+    // Since our plugin doesn't make any fetcher calls, we can very simply
     // invoke formulas directly with the default mock execution context.
     assert.equal(1, await executeFormulaFromPackDef(pack, "Cosine", [0]));
     assert.approximately(

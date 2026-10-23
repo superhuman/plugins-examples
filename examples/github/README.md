@@ -1,6 +1,6 @@
 # GitHub
 
-This is a more substantive example Pack that connects to GitHub using OAuth2 authentication,
+This is a more substantive example Plugin that connects to GitHub using OAuth2 authentication,
 and implements a table that syncs various pull requests for one or more repos that the
 user has access to, as well as an action formula to post a pull request review.
 
@@ -15,7 +15,7 @@ on Coda after uploading & releasing, your authorization callback URL must change
 
 ## Running the Example
 
-Run `coda auth examples/github/pack.ts`. You'll be prompted to enter you client id
+Run `packs auth examples/github/pack.ts`. You'll be prompted to enter you client id
 and client secret, and then your browser will open and begin GitHub's OAuth flow.
 After the flow completes, the access token for that account will saved locally
 for use when executing formulas and syncs, so you only have to do this once. But you can
@@ -25,13 +25,13 @@ becomes invalid.
 To sync pull requests and output them to the console, you can run:
 
 ```bash
-coda execute examples/github/pack.ts PullRequests https://github.com/<your-org>/<your-repo>
+packs execute examples/github/pack.ts PullRequests https://github.com/<your-org>/<your-repo>
 ```
 
 To create a review on a pull request, you can run:
 
 ```bash
-coda execute examples/github/pack.ts ReviewPullRequest https://github.com/<your-org>/<your-repo>/pull/<your-pr> COMMENT "Some comment"
+packs execute examples/github/pack.ts ReviewPullRequest https://github.com/<your-org>/<your-repo>/pull/<your-pr> COMMENT "Some comment"
 ```
 
 Note that this will actually update your pull request in GitHub! So be careful and make
@@ -40,7 +40,7 @@ sure you don't inadvertently e.g. approve a real PR if you're just exploring.
 To execute the example `PullRequests` table sync, run:
 
 ```bash
-coda execute examples/github/pack.ts PullRequests https://github.com/<your-org>/<your-repo>
+packs execute examples/github/pack.ts PullRequests https://github.com/<your-org>/<your-repo>
 ```
 
 This will fetch all of the pull requests in that repo, using multiple requests if there are multiple result
@@ -51,7 +51,7 @@ parameter to the sync.)
 
 ## Running the Tests
 
-Run the unittests just for this Pack by using:
+Run the unittests just for this Plugin by using:
 
 ```bash
 mocha --require ts-node/register examples/github/test/github_test.ts
@@ -61,7 +61,7 @@ The unittests use a mock http fetcher and do not connect to a real API.
 
 There is also an integration test, which makes real http requests to the API.
 To run successfully, this test requires that you've already setup an access token
-using `coda auth examples/github/pack.ts`.
+using `packs auth examples/github/pack.ts`.
 
 ```bash
 mocha --require ts-node/register examples/github/test/github_integration.ts

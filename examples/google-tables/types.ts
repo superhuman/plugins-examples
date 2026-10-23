@@ -1,4 +1,4 @@
-import type * as coda from "@superhuman/plugins-sdk";
+import type * as sdk from "@superhuman/plugins-sdk";
 
 // Google Tables API types.
 
@@ -78,7 +78,7 @@ export interface TablesTimestamp {
   nanos: number;
 }
 
-// Custom types for this Pack.
+// Custom types for this Plugin.
 
 export interface CodaRow extends Record<string, any> {
   name: string;
@@ -86,7 +86,7 @@ export interface CodaRow extends Record<string, any> {
   updateTime?: string;
 }
 
-export interface RowsContinuation extends coda.Continuation {
+export interface RowsContinuation extends sdk.Continuation {
   pageToken: string;
   rowNumber: number;
 }

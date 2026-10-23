@@ -1,10 +1,10 @@
-import type * as coda from "@superhuman/plugins-sdk";
+import type * as sdk from "@superhuman/plugins-sdk";
 import type * as types from "./types";
 
 const API_VERSION = "v3";
 
 export async function lookupDefinition(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   word: string,
 ): Promise<types.CodaDefinition[]> {
   let escapedWord = encodeURIComponent(word);

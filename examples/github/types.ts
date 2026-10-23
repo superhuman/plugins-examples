@@ -18,7 +18,7 @@ export enum PullRequestStateFilter {
 
 // Below are types for GitHub object responses. These only include the
 // subset of fields we
-// care about for this pack. The actual responses are much larger.
+// care about for this plugin. The actual responses are much larger.
 
 // https://docs.github.com/en/free-pro-team@latest/rest/reference/pulls#get-a-pull-request
 export interface GitHubPullRequest {

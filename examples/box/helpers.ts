@@ -1,14 +1,14 @@
 import * as ContentDisposition from "content-disposition";
 import type {Folder} from "./types";
 import type {User} from "./types";
-import * as coda from "@superhuman/plugins-sdk";
 import * as mime from "mime-types";
+import * as sdk from "@superhuman/plugins-sdk";
 
 export async function searchFolders(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   search: string,
 ): Promise<Folder[]> {
-  let url = coda.withQueryParams("https://api.box.com/2.0/search", {
+  let url = sdk.withQueryParams("https://api.box.com/2.0/search", {
     type: "folder",
     // If no query has been entered, search for "folder" to find all folders.
     query: search || "folder",
@@ -22,7 +22,7 @@ export async function searchFolders(
   return response.body.entries;
 }
 
-export async function getUser(context: coda.ExecutionContext): Promise<User> {
+export async function getUser(context: sdk.ExecutionContext): Promise<User> {
   let response = await context.fetcher.fetch({
     method: "GET",
     url: "https://api.box.com/2.0/users/me",

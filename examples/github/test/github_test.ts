@@ -18,7 +18,7 @@ import {pack} from "../pack";
 import * as sinon from "sinon";
 import {willBeRejectedWith} from "../../../lib/test_utils";
 
-describe("Github pack", () => {
+describe("Github plugin", () => {
   describe("ReviewPullRequest", () => {
     let context: MockExecutionContext;
 
@@ -257,7 +257,7 @@ describe("Github pack", () => {
     });
 
     // We can even test the metadata formulas in the supporting
-    // parts of our pack. The repo url parameter to this sync table
+    // parts of our plugin. The repo url parameter to this sync table
     // has an autocomplete metadata formula to make it easier for users
     // to select the repo they want to sync from. This test exercises
     // that formula, which makes http requests to GitHub to listen

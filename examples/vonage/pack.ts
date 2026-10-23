@@ -1,23 +1,23 @@
-import * as coda from "@superhuman/plugins-sdk";
 import * as credentials from "./credentials";
 import * as rs from "jsrsasign";
+import * as sdk from "@superhuman/plugins-sdk";
 
-export const pack = coda.newPack();
+export const pack = sdk.newPack();
 
-const ConversationSchema = coda.makeObjectSchema({
+const ConversationSchema = sdk.makeObjectSchema({
   properties: {
     id: {
-      type: coda.ValueType.String,
+      type: sdk.ValueType.String,
     },
     name: {
-      type: coda.ValueType.String,
+      type: sdk.ValueType.String,
     },
     display_name: {
-      type: coda.ValueType.String,
+      type: sdk.ValueType.String,
     },
     image: {
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.ImageReference,
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.ImageReference,
       fromKey: "image_url",
     },
   },
@@ -76,7 +76,7 @@ pack.addSyncTable({
 
 // Create a JWT using the application ID and private key in credentials.ts.
 // See https://developer.vonage.com/en/getting-started/concepts/authentication#json-web-tokens
-function createJwt(context: coda.ExecutionContext) {
+function createJwt(context: sdk.ExecutionContext) {
   let now = Date.now() / 1000;
   let header = {
     alg: "RS256",

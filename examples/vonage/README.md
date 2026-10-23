@@ -1,8 +1,8 @@
 # Vonage
 
-This is an example Pack that syncs data from Vonage. The primary purpose of this example is to demonstrate how to perform JWT (JSON Web Token) authentication in a Pack.
+This is an example Plugin that syncs data from Vonage. The primary purpose of this example is to demonstrate how to perform JWT (JSON Web Token) authentication in a Plugin.
 
-Coda doesn't yet have native support for JWT authentication, but when the API uses a shared set of system credentials you can approximate it. This example stores the shared credentials in a file and uses the `jsrsasign` library to generate the JWT. When using this pattern in your own Packs make sure not to check the credentials file into your version control system.
+Coda doesn't yet have native support for JWT authentication, but when the API uses a shared set of system credentials you can approximate it. This example stores the shared credentials in a file and uses the `jsrsasign` library to generate the JWT. When using this pattern in your own Plugins make sure not to check the credentials file into your version control system.
 
 ## Setup
 
@@ -14,5 +14,5 @@ To run the example code and actually connect to Vonage, you'll need to sign up f
 To sync the list of conversations run:
 
 ```bash
-coda execute examples/vonage/pack.ts Conversations
+packs execute examples/vonage/pack.ts Conversations
 ```

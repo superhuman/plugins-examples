@@ -2,22 +2,22 @@ import type {CodaRow} from "./types";
 import type {Column} from "./types";
 import type {Row} from "./types";
 import type {Table} from "./types";
-import * as coda from "@superhuman/plugins-sdk";
 import {getConverter} from "./convert";
+import * as sdk from "@superhuman/plugins-sdk";
 
 const BaseUrl = "https://area120tables.googleapis.com/v1alpha1";
 const PageSize = 100;
 const ShortCacheTimeSecs = 60;
 
 export function getTableUrl(tableName: string): string {
-  return coda.joinUrl(BaseUrl, tableName);
+  return sdk.joinUrl(BaseUrl, tableName);
 }
 
 // Get the available tables from the API.
 export async function getTables(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
 ): Promise<Table[]> {
-  let url = coda.withQueryParams(coda.joinUrl(BaseUrl, "tables"), {
+  let url = sdk.withQueryParams(sdk.joinUrl(BaseUrl, "tables"), {
     pageSize: PageSize,
   });
   let response = await context.fetcher.fetch({
@@ -30,7 +30,7 @@ export async function getTables(
 
 // Get a specific table from the API.
 export async function getTable(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   tableUrl: string,
 ): Promise<Table> {
   let response = await context.fetcher.fetch({
@@ -43,11 +43,11 @@ export async function getTable(
 
 // Get a page of table rows from the API.
 export async function getRows(
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   tableUrl: string,
   pageToken?: string,
 ): Promise<{rows: Row[]; nextPageToken?: string}> {
-  let url = coda.withQueryParams(coda.joinUrl(tableUrl, "rows"), {
+  let url = sdk.withQueryParams(sdk.joinUrl(tableUrl, "rows"), {
     view: "COLUMN_ID_VIEW",
     pageSize: PageSize,
     pageToken: pageToken,
@@ -61,10 +61,10 @@ export async function getRows(
 
 // Update a table row using the API.
 export async function updateRow(
-  context: coda.UpdateSyncExecutionContext,
+  context: sdk.UpdateSyncExecutionContext,
   row: Row,
 ) {
-  let url = coda.withQueryParams(coda.joinUrl(BaseUrl, row.name), {
+  let url = sdk.withQueryParams(sdk.joinUrl(BaseUrl, row.name), {
     view: "COLUMN_ID_VIEW",
   });
   try {
@@ -79,12 +79,12 @@ export async function updateRow(
     return response.body;
   } catch (error) {
     if (
-      coda.StatusCodeError.isStatusCodeError(error) &&
+      sdk.StatusCodeError.isStatusCodeError(error) &&
       // Don't swallow 401's, since they are needed to trigger an OAuth refresh.
       error.statusCode !== 401
     ) {
       if (error.body?.error) {
-        throw new coda.UserVisibleError(error.body.error.message);
+        throw new sdk.UserVisibleError(error.body.error.message);
       }
     }
     throw error;
@@ -94,8 +94,8 @@ export async function updateRow(
 export function getPropertySchema(
   column: Column,
   table: Table,
-  context: coda.ExecutionContext,
-): (coda.Schema & coda.ObjectSchemaProperty) | undefined {
+  context: sdk.ExecutionContext,
+): (sdk.Schema & sdk.ObjectSchemaProperty) | undefined {
   let converter = getConverter(context, column, table);
   return converter.getSchema();
 }
@@ -103,7 +103,7 @@ export function getPropertySchema(
 export function formatRowForSchema(
   row: Row,
   table: Table,
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
   label: string,
 ): CodaRow {
   let result: CodaRow = {
@@ -127,7 +127,7 @@ export function formatRowForSchema(
 export function formatRowForApi(
   row: CodaRow,
   table: Table,
-  context: coda.ExecutionContext,
+  context: sdk.ExecutionContext,
 ): Row {
   let result: Row = {
     name: row.name,

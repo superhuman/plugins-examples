@@ -1,6 +1,5 @@
 import type {CodaRow} from "./types";
 import type {RowsContinuation} from "./types";
-import * as coda from "@superhuman/plugins-sdk";
 import {formatRowForApi} from "./helpers";
 import {formatRowForSchema} from "./helpers";
 import {getPropertySchema} from "./helpers";
@@ -8,26 +7,27 @@ import {getRows} from "./helpers";
 import {getTable} from "./helpers";
 import {getTableUrl} from "./helpers";
 import {getTables} from "./helpers";
+import * as sdk from "@superhuman/plugins-sdk";
 import {updateRow} from "./helpers";
 
-export const pack = coda.newPack();
+export const pack = sdk.newPack();
 
 // A base schema, extended with additional properties depending on the table.
-export const BaseRowSchema = coda.makeObjectSchema({
+export const BaseRowSchema = sdk.makeObjectSchema({
   properties: {
     rowId: {
       description: "Internal ID of the row.",
-      type: coda.ValueType.String,
+      type: sdk.ValueType.String,
       fromKey: "name",
       required: true,
     },
     rowLabel: {
-      type: coda.ValueType.String,
+      type: sdk.ValueType.String,
       required: true,
     },
     lastUpdated: {
-      type: coda.ValueType.String,
-      codaType: coda.ValueHintType.DateTime,
+      type: sdk.ValueType.String,
+      codaType: sdk.ValueHintType.DateTime,
       fromKey: "updateTime",
     },
   },
@@ -58,7 +58,7 @@ pack.addDynamicSyncTable({
         value: getTableUrl(table.name),
       };
     });
-    return coda.autocompleteSearchObjects(search, results, "display", "value");
+    return sdk.autocompleteSearchObjects(search, results, "display", "value");
   },
   getName: async function (context) {
     let tableUrl = context.sync!.dynamicUrl!;
@@ -68,7 +68,7 @@ pack.addDynamicSyncTable({
   getSchema: async function (context) {
     let tableUrl = context.sync!.dynamicUrl!;
     let table = await getTable(context, tableUrl);
-    let schema: coda.GenericObjectSchema = {
+    let schema: sdk.GenericObjectSchema = {
       ...BaseRowSchema,
       properties: {
         ...BaseRowSchema.properties,
@@ -87,7 +87,7 @@ pack.addDynamicSyncTable({
   getDisplayUrl: async function (context) {
     let tableUrl = context.sync!.dynamicUrl!;
     let tableId = tableUrl.split("/").pop() as string;
-    return coda.joinUrl("https://tables.area120.google.com/table", tableId);
+    return sdk.joinUrl("https://tables.area120.google.com/table", tableId);
   },
   // Get the options for select list columns.
   propertyOptions: async function (context) {
@@ -173,7 +173,7 @@ pack.addDynamicSyncTable({
 });
 
 pack.setUserAuthentication({
-  type: coda.AuthenticationType.OAuth2,
+  type: sdk.AuthenticationType.OAuth2,
   authorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth",
   tokenUrl: "https://oauth2.googleapis.com/token",
   scopes: ["profile", "https://www.googleapis.com/auth/tables"],

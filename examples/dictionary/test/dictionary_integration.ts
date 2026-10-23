@@ -4,11 +4,11 @@ import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/developmen
 import {it} from "mocha";
 import {pack} from "../pack";
 
-describe("Dictionary pack integration test", () => {
+describe("Dictionary plugin integration test", () => {
   it("executes Define", async () => {
-    // Here we execute the formula using a real http fetcher. Since this pack
+    // Here we execute the formula using a real http fetcher. Since this plugin
     // requires authentication, this requires that you've already run
-    // `coda auth examples/dictionary/pack.ts` to set up an API key.
+    // `packs auth examples/dictionary/pack.ts` to set up an API key.
     let response = await executeFormulaFromPackDef<any[]>(
       pack,
       "Define",

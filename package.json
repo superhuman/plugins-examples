@@ -1,7 +1,7 @@
 {
   "name": "@superhuman/plugins-examples",
   "version": "0.0.1",
-  "description": "Examples of Coda (coda.io) packs.",
+  "description": "Examples of Superhuman Plugins.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require ts-node/register examples/**/*_test.ts",
@@ -9,17 +9,17 @@
     "compile": "tsc --noEmit",
     "lint": "find . -name \"*.ts\" | grep -v /node_modules/ | grep -v .d.ts | xargs node_modules/.bin/eslint",
     "lint-fix": "find . -name \"*.ts\" | grep -v /node_modules/ | grep -v .d.ts | xargs node_modules/.bin/eslint --fix",
-    "validate": "find examples/**/pack.ts -name '*.ts' | xargs -n1 -I {} sh -c 'NODE_OPTIONS=\"--no-deprecation\" coda validate {} || echo \"While validating {}\n\";'"
+    "validate": "find examples/**/pack.ts -name '*.ts' | xargs -n1 -I {} sh -c 'NODE_OPTIONS=\"--no-deprecation\" packs validate {} || echo \"While validating {}\n\";'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coda/packs-examples.git"
+    "url": "git+https://github.com/superhuman/plugins-examples.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/coda/packs-examples/issues"
+    "url": "https://github.com/superhuman/plugins-examples/issues"
   },
-  "homepage": "https://github.com/coda/packs-examples#readme",
+  "homepage": "https://github.com/superhuman/plugins-examples#readme",
   "engines": {
     "npm": ">=9",
     "node": ">=22.0.0"

@@ -5,7 +5,7 @@
 // A single response entry as described at https://dictionaryapi.com/products/json.
 // The http response from the API consists of an array of these objects.
 // For simplicity, we only include the subset of fields that care about for
-// this pack.
+// this plugin.
 export interface APIEntry {
   // One or more practical definitions of the word.
   shortdef: string[];
@@ -29,7 +29,7 @@ export interface APIEntry {
 }
 
 /**
- * Type definitions for the transformed objects returned by the pack.
+ * Type definitions for the transformed objects returned by the plugin.
  * Generally these types match the schema(s) you define in schemas.ts.
  */
 

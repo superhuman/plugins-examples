@@ -9,7 +9,7 @@ import {newMockExecutionContext} from "@superhuman/plugins-sdk/dist/development"
 import {pack} from "../pack";
 import * as sinon from "sinon";
 
-describe("Dictionary pack", () => {
+describe("Dictionary plugin", () => {
   let context: MockExecutionContext;
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe("Dictionary pack", () => {
     assert.equal(1, response.length);
     // The response object has gone through normalization, standardizing the
     // capitalization and formatting of object propery names to be consistent
-    // across packs.
+    // across plugins.
     assert.deepEqual(response[0], {
       Id: "foo",
       Definitions: ["definition of foo"],
@@ -63,7 +63,7 @@ describe("Dictionary pack", () => {
     });
   });
 
-  // It's important to verify how your pack behaves in edges cases. We've
+  // It's important to verify how your plugin behaves in edges cases. We've
   // checked that the real API returns an empty list as a response when it
   // cannot find the input word, so we simulate that here, and make sure
   // that our implementation doesn't throw any errors.
