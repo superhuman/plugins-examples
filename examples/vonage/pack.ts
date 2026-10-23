@@ -1,4 +1,4 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import * as credentials from "./credentials";
 import * as rs from "jsrsasign";
 

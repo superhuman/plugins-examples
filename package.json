@@ -1,5 +1,5 @@
 {
-  "name": "@codahq/packs-examples",
+  "name": "@superhuman/plugins-examples",
   "version": "0.0.1",
   "description": "Examples of Coda (coda.io) packs.",
   "main": "index.js",
@@ -22,10 +22,10 @@
   "homepage": "https://github.com/coda/packs-examples#readme",
   "engines": {
     "npm": ">=9",
-    "node": ">=18"
+    "node": ">=22.0.0"
   },
   "dependencies": {
-    "@codahq/packs-sdk": "^1.9.1",
+    "@superhuman/plugins-sdk": "^1.18.4",
     "content-disposition": "0.5.4",
     "form-data": "4.0.1",
     "jsrsasign": "11.1.0",

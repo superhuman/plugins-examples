@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import {getFilename} from "./helpers";
 import {getUser} from "./helpers";
 import {searchFolders} from "./helpers";

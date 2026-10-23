@@ -1,6 +1,6 @@
 import {assert} from "chai";
 import {describe} from "mocha";
-import {executeFormulaFromPackDef} from "@codahq/packs-sdk/dist/development";
+import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
 import {pack} from "../pack";
 

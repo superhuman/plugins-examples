@@ -1,6 +1,6 @@
 import type {CodaRow} from "./types";
 import type {RowsContinuation} from "./types";
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import {formatRowForApi} from "./helpers";
 import {formatRowForSchema} from "./helpers";
 import {getPropertySchema} from "./helpers";

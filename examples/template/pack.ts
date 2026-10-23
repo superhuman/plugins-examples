@@ -1,3 +1,3 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 
 export const pack = coda.newPack();

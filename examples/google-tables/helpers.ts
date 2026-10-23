@@ -2,7 +2,7 @@ import type {CodaRow} from "./types";
 import type {Column} from "./types";
 import type {Row} from "./types";
 import type {Table} from "./types";
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import {getConverter} from "./convert";
 
 const BaseUrl = "https://area120tables.googleapis.com/v1alpha1";
