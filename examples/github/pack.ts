@@ -1,4 +1,4 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import * as helpers from "./helpers";
 import * as schemas from "./schemas";
 import * as types from "./types";

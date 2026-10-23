@@ -1,7 +1,7 @@
 import * as ContentDisposition from "content-disposition";
 import type {Folder} from "./types";
 import type {User} from "./types";
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import * as mime from "mime-types";
 
 export async function searchFolders(

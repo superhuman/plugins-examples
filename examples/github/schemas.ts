@@ -1,4 +1,4 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 
 // A user associated with an entity or action. This is a child property
 // in many other GitHub objects.

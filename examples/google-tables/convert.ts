@@ -10,7 +10,7 @@ import type {TablesDateTime} from "./types";
 import type {TablesFile} from "./types";
 import type {TablesLocation} from "./types";
 import type {TablesTimestamp} from "./types";
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import {getTableUrl} from "./helpers";
 
 const DriveOpenUrl = "https://drive.google.com/open";

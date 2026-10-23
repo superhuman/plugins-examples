@@ -1,4 +1,4 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from "@superhuman/plugins-sdk";
 import type * as types from "./types";
 
 const PULL_REQUEST_URL_REGEX =

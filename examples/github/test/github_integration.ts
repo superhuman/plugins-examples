@@ -1,7 +1,7 @@
 import {PullRequestStateFilter} from "../types";
 import {assert} from "chai";
 import {describe} from "mocha";
-import {executeSyncFormulaFromPackDef} from "@codahq/packs-sdk/dist/development";
+import {executeSyncFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
 import {pack} from "../pack";
 

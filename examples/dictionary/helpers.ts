@@ -1,4 +1,4 @@
-import type * as coda from "@codahq/packs-sdk";
+import type * as coda from "@superhuman/plugins-sdk";
 import type * as types from "./types";
 
 const API_VERSION = "v3";

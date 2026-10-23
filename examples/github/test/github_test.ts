@@ -1,19 +1,19 @@
 import type {GitHubPullRequest} from "../types";
 import type {GitHubRepo} from "../types";
 import {GitHubReviewEvent} from "../types";
-import type {MockExecutionContext} from "@codahq/packs-sdk/dist/development";
-import type {MockSyncExecutionContext} from "@codahq/packs-sdk/dist/development";
+import type {MockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
+import type {MockSyncExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import type {PullRequestReviewResponse} from "../types";
 import {RepoUrlParameter} from "../pack";
 import {assert} from "chai";
 import {describe} from "mocha";
-import {executeFormulaFromPackDef} from "@codahq/packs-sdk/dist/development";
-import {executeMetadataFormula} from "@codahq/packs-sdk/dist/development";
-import {executeSyncFormulaFromPackDef} from "@codahq/packs-sdk/dist/development";
+import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
+import {executeMetadataFormula} from "@superhuman/plugins-sdk/dist/development";
+import {executeSyncFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
-import {newJsonFetchResponse} from "@codahq/packs-sdk/dist/development";
-import {newMockExecutionContext} from "@codahq/packs-sdk/dist/development";
-import {newMockSyncExecutionContext} from "@codahq/packs-sdk/dist/development";
+import {newJsonFetchResponse} from "@superhuman/plugins-sdk/dist/development";
+import {newMockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
+import {newMockSyncExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import {pack} from "../pack";
 import * as sinon from "sinon";
 import {willBeRejectedWith} from "../../../lib/test_utils";
@@ -291,6 +291,7 @@ describe("Github pack", () => {
 
       // The metadata formula should fetch our fake repos but filter
       // them to only those that match the search query.
+      assert(Array.isArray(results));
       assert.equal(results.length, 1);
       assert.deepEqual(results[0], {
         value: "https://repo-2-url",

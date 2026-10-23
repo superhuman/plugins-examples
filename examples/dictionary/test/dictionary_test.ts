@@ -1,11 +1,11 @@
 import type {APIEntry} from "../types";
-import type {MockExecutionContext} from "@codahq/packs-sdk/dist/development";
+import type {MockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import {assert} from "chai";
 import {describe} from "mocha";
-import {executeFormulaFromPackDef} from "@codahq/packs-sdk/dist/development";
+import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
-import {newJsonFetchResponse} from "@codahq/packs-sdk/dist/development";
-import {newMockExecutionContext} from "@codahq/packs-sdk/dist/development";
+import {newJsonFetchResponse} from "@superhuman/plugins-sdk/dist/development";
+import {newMockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import {pack} from "../pack";
 import * as sinon from "sinon";
 
