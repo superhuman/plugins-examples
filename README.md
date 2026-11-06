@@ -38,10 +38,17 @@ run that example's integration test individually.
 Several example Plugins are provided in the `examples` directory. Each example has its
 own readme with more details.
 
-The `template` Plugin is minimal boilerplate for creating
-a new Plugin from scratch. The contents of this example are automatically copied to your
-working directory if you run the `packs init` command, which is our recommended way to get
-started, rather than manually copying this example.
+The `template` Plugin is minimal boilerplate for creating a new Plugin from scratch.
+Run `packs init` to copy it to your working directory. The generated `pack.ts` exports
+`connector = sdk.newConnector()`; use `connector` for subsequent builder calls. This
+starter requires a published SDK version that provides `sdk.newConnector()` and supports
+loading the `connector` export.
+
+Existing Pack APIs, including `sdk.newPack()` and the `pack` export, remain supported.
+The six existing examples continue to use those APIs.
+
+The SDK supplies `packs init --agent`; that command does not copy this repository's
+starter template.
 
 The [`trigonometry`](examples/trigonometry/README.md) Plugin is one of the simplest meaningful
 Plugins. It exposes formulas for common trigonometric functions like sine and cosine by wrapping
