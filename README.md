@@ -45,7 +45,7 @@ starter requires `@superhuman/plugins-sdk` 1.20.0 or later, which provides
 `sdk.newConnector()` and supports loading the `connector` export.
 
 Existing Pack APIs, including `sdk.newPack()` and the `pack` export, remain supported.
-The six existing examples continue to use those APIs.
+All examples in this repository use the Connector factory and export.
 
 The SDK supplies `packs init --agent`; that command does not copy this repository's
 starter template.

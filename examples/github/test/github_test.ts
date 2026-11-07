@@ -6,6 +6,7 @@ import type {MockSyncExecutionContext} from "@superhuman/plugins-sdk/dist/develo
 import type {PullRequestReviewResponse} from "../types";
 import {RepoUrlParameter} from "../pack";
 import {assert} from "chai";
+import {connector} from "../pack";
 import {describe} from "mocha";
 import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {executeMetadataFormula} from "@superhuman/plugins-sdk/dist/development";
@@ -14,7 +15,6 @@ import {it} from "mocha";
 import {newJsonFetchResponse} from "@superhuman/plugins-sdk/dist/development";
 import {newMockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import {newMockSyncExecutionContext} from "@superhuman/plugins-sdk/dist/development";
-import {pack} from "../pack";
 import * as sinon from "sinon";
 import {willBeRejectedWith} from "../../../lib/test_utils";
 
@@ -50,7 +50,7 @@ describe("Github plugin", () => {
       // This is the heart of the test, where we actually execute the
       // formula on a given set of parameters, using our mock execution context.
       let response = await executeFormulaFromPackDef(
-        pack,
+        connector,
         "ReviewPullRequest",
         [
           "https://github.com/some-org/some-repo/pull/234",
@@ -94,7 +94,7 @@ describe("Github plugin", () => {
       // Comment action, that you actually send a comment body, so we make sure
       // that validation is working as expected.
       let responsePromise = executeFormulaFromPackDef(
-        pack,
+        connector,
         "ReviewPullRequest",
         [
           "https://github.com/some-org/some-repo/pull/234",
@@ -187,7 +187,7 @@ describe("Github plugin", () => {
 
       // This actually executes the entire sync.
       let syncedObjects = await executeSyncFormulaFromPackDef(
-        pack,
+        connector,
         "PullRequests",
         ["https://github.com/some-org/some-repo"],
         syncContext,
@@ -240,7 +240,7 @@ describe("Github plugin", () => {
       // Now actually execute the sync. This will keep fetching additional
       // pages of results until there is not continuation returned.
       let syncedObjects = await executeSyncFormulaFromPackDef(
-        pack,
+        connector,
         "PullRequests",
         ["https://github.com/some-org/some-repo"],
         syncContext,

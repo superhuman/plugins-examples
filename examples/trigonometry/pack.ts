@@ -1,6 +1,6 @@
 import * as sdk from "@superhuman/plugins-sdk";
 
-export const pack = sdk.newPack();
+export const connector = sdk.newConnector();
 
 const DegreesParameter = sdk.makeParameter({
   type: sdk.ParameterType.Number,
@@ -14,7 +14,7 @@ const RadiansParameter = sdk.makeParameter({
   description: "An angle measured in radians.",
 });
 
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Number,
   name: "Sine",
   description: "Returns the angle (in radians) whose sine is the given number",
@@ -23,7 +23,7 @@ pack.addFormula({
   execute: ([value]) => Math.sin(value),
 });
 
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Number,
   name: "Cosine",
   description: "Returns the cosine of a number (in radians).",
@@ -32,7 +32,7 @@ pack.addFormula({
   execute: ([value]) => Math.cos(value),
 });
 
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Number,
   name: "Tangent",
   description: "Returns the tangent of a number (in radians).",
@@ -41,7 +41,7 @@ pack.addFormula({
   execute: ([value]) => Math.tan(value),
 });
 
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Number,
   name: "ToRadians",
   description: "Converts degrees to radians.",
@@ -50,7 +50,7 @@ pack.addFormula({
   execute: ([value]) => (value * Math.PI) / 180,
 });
 
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Number,
   name: "ToDegrees",
   description: "Converts radians to degrees.",
