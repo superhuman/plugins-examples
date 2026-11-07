@@ -25,7 +25,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@superhuman/plugins-sdk": "^1.18.4",
+    "@superhuman/plugins-sdk": "^1.20.0",
     "content-disposition": "0.5.4",
     "form-data": "4.0.1",
     "jsrsasign": "11.1.0",

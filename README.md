@@ -41,8 +41,8 @@ own readme with more details.
 The `template` Plugin is minimal boilerplate for creating a new Plugin from scratch.
 Run `packs init` to copy it to your working directory. The generated `pack.ts` exports
 `connector = sdk.newConnector()`; use `connector` for subsequent builder calls. This
-starter requires a published SDK version that provides `sdk.newConnector()` and supports
-loading the `connector` export.
+starter requires `@superhuman/plugins-sdk` 1.20.0 or later, which provides
+`sdk.newConnector()` and supports loading the `connector` export.
 
 Existing Pack APIs, including `sdk.newPack()` and the `pack` export, remain supported.
 The six existing examples continue to use those APIs.
