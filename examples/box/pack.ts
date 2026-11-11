@@ -4,11 +4,11 @@ import {getUser} from "./helpers";
 import * as sdk from "@superhuman/plugins-sdk";
 import {searchFolders} from "./helpers";
 
-export const pack = sdk.newPack();
+export const connector = sdk.newConnector();
 
-pack.addNetworkDomain("box.com");
+connector.addNetworkDomain("box.com");
 
-pack.setUserAuthentication({
+connector.setUserAuthentication({
   type: sdk.AuthenticationType.OAuth2,
   authorizationUrl: "https://account.box.com/api/oauth2/authorize",
   tokenUrl: "https://api.box.com/oauth2/token",
@@ -18,7 +18,7 @@ pack.setUserAuthentication({
   },
 });
 
-pack.addFormula({
+connector.addFormula({
   name: "UploadFile",
   description: "Uploads a file to Box.",
   parameters: [

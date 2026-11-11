@@ -1,12 +1,12 @@
 import type {APIEntry} from "../types";
 import type {MockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
 import {assert} from "chai";
+import {connector} from "../pack";
 import {describe} from "mocha";
 import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
 import {newJsonFetchResponse} from "@superhuman/plugins-sdk/dist/development";
 import {newMockExecutionContext} from "@superhuman/plugins-sdk/dist/development";
-import {pack} from "../pack";
 import * as sinon from "sinon";
 
 describe("Dictionary plugin", () => {
@@ -39,7 +39,7 @@ describe("Dictionary plugin", () => {
     // This is the heart of the test, where we actually execute the formula on a
     // given set of parameters, using our mock execution context.
     let response = await executeFormulaFromPackDef<any[]>(
-      pack,
+      connector,
       "Define",
       ["foo"],
       context,
@@ -70,7 +70,7 @@ describe("Dictionary plugin", () => {
   it("executes with an empty response", async () => {
     context.fetcher.fetch.resolves(newJsonFetchResponse([]));
     let response = await executeFormulaFromPackDef(
-      pack,
+      connector,
       "Define",
       ["unknown"],
       context,

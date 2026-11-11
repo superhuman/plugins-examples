@@ -1,8 +1,8 @@
 import {assert} from "chai";
+import {connector} from "../pack";
 import {describe} from "mocha";
 import {executeFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
-import {pack} from "../pack";
 
 describe("Dictionary plugin integration test", () => {
   it("executes Define", async () => {
@@ -10,7 +10,7 @@ describe("Dictionary plugin integration test", () => {
     // requires authentication, this requires that you've already run
     // `packs auth examples/dictionary/pack.ts` to set up an API key.
     let response = await executeFormulaFromPackDef<any[]>(
-      pack,
+      connector,
       "Define",
       ["coda"],
       undefined,

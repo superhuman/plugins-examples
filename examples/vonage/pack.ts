@@ -2,7 +2,7 @@ import * as credentials from "./credentials";
 import * as rs from "jsrsasign";
 import * as sdk from "@superhuman/plugins-sdk";
 
-export const pack = sdk.newPack();
+export const connector = sdk.newConnector();
 
 const ConversationSchema = sdk.makeObjectSchema({
   properties: {
@@ -26,9 +26,9 @@ const ConversationSchema = sdk.makeObjectSchema({
   featuredProperties: ["display_name", "image"],
 });
 
-pack.addNetworkDomain("nexmo.com");
+connector.addNetworkDomain("nexmo.com");
 
-pack.addSyncTable({
+connector.addSyncTable({
   name: "Conversations",
   description: "Lists the conversations created by the application.",
   identityName: "Conversation",

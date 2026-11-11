@@ -10,7 +10,7 @@ import {getTables} from "./helpers";
 import * as sdk from "@superhuman/plugins-sdk";
 import {updateRow} from "./helpers";
 
-export const pack = sdk.newPack();
+export const connector = sdk.newConnector();
 
 // A base schema, extended with additional properties depending on the table.
 export const BaseRowSchema = sdk.makeObjectSchema({
@@ -36,7 +36,7 @@ export const BaseRowSchema = sdk.makeObjectSchema({
   featuredProperties: [],
 });
 
-pack.addDynamicSyncTable({
+connector.addDynamicSyncTable({
   name: "Table",
   description: "Syncs records from a Google Tables table.",
   identityName: "Table",
@@ -172,7 +172,7 @@ pack.addDynamicSyncTable({
   },
 });
 
-pack.setUserAuthentication({
+connector.setUserAuthentication({
   type: sdk.AuthenticationType.OAuth2,
   authorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth",
   tokenUrl: "https://oauth2.googleapis.com/token",
@@ -191,4 +191,4 @@ pack.setUserAuthentication({
   },
 });
 
-pack.addNetworkDomain("googleapis.com");
+connector.addNetworkDomain("googleapis.com");

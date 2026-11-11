@@ -1,9 +1,9 @@
 import {PullRequestStateFilter} from "../types";
 import {assert} from "chai";
+import {connector} from "../pack";
 import {describe} from "mocha";
 import {executeSyncFormulaFromPackDef} from "@superhuman/plugins-sdk/dist/development";
 import {it} from "mocha";
-import {pack} from "../pack";
 
 describe("GitHub plugin integration test", () => {
   it("executes PullRequests sync", async () => {
@@ -12,7 +12,7 @@ describe("GitHub plugin integration test", () => {
     // `packs auth examples/github/pack.ts` to set up your OAuth credentials
     // for GitHub.
     let response = await executeSyncFormulaFromPackDef(
-      pack,
+      connector,
       "PullRequests",
       // This integration test assumes you have access to the plugins-examples
       // repo, which you should if you're looking at this example!

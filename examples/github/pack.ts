@@ -3,16 +3,16 @@ import * as schemas from "./schemas";
 import * as sdk from "@superhuman/plugins-sdk";
 import * as types from "./types";
 
-export const pack = sdk.newPack();
+export const connector = sdk.newConnector();
 
 // This tells Coda which domain the plugin make requests to. Any fetcher
 // requests to other domains won't be allowed.
-pack.addNetworkDomain("github.com");
+connector.addNetworkDomain("github.com");
 
 // The GitHub plugin uses OAuth authentication, to allow each user to login
 // to GitHub via the browser when installing the plugin. The plugin will
 // operate on their personal data.
-pack.setUserAuthentication({
+connector.setUserAuthentication({
   type: sdk.AuthenticationType.OAuth2,
   // As outlined in https://docs.github.com/en/free-pro-team@latest/developers/apps/authorizing-oauth-apps,
   // these are the urls for initiating OAuth authentication and doing
@@ -77,7 +77,7 @@ const PullRequestReviewCommentParameter = sdk.makeParameter({
 
 // We use makeObjectFormula because this formula will return a structured
 // object with multiple pieces of data about the submitted rview.
-pack.addFormula({
+connector.addFormula({
   resultType: sdk.ValueType.Object,
   name: "ReviewPullRequest",
   description: "Review a pull request.",
@@ -166,7 +166,7 @@ pack.addFormula({
 // requests at its initial installation, and Coda will guide a user through
 // an additional authorization when they try to use a formula with greater
 // permissions like this and get an error.
-pack.addFormula({
+connector.addFormula({
   name: "UserEmail",
   description:
     "Returns the primary email address used on this user's GitHub account.",
@@ -254,7 +254,7 @@ const PullRequestStateOptional = sdk.makeParameter({
   ],
 });
 
-pack.addSyncTable({
+connector.addSyncTable({
   // This is the name of the sync table, which will show in the UI.
   name: "PullRequests",
   // This the unique id of the table, used internally. By convention, it's
