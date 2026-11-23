@@ -25,12 +25,17 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@superhuman/plugins-sdk": "^1.20.0",
+    "@hono/zod-validator": "^0.9.1",
+    "@superhuman/plugins-sdk": "^1.22.0",
+    "compromise": "^14.20.0",
+    "compromise-dates": "^3.11.0",
     "content-disposition": "0.5.4",
     "form-data": "4.0.1",
+    "hono": "^4.13.19",
     "jsrsasign": "11.1.0",
     "luxon": "3.5.0",
-    "mime-types": "2.1.35"
+    "mime-types": "2.1.35",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/chai": "4.3.16",
@@ -55,7 +60,8 @@
     "prettier": "3.5.1",
     "sinon": "19.0.2",
     "ts-node": "10.9.2",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "wrangler": "^4.165.0"
   },
   "resolutions": {
     "xml2js": "0.6.2"
