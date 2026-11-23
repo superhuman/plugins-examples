@@ -27,7 +27,7 @@ describe("findDateSuggestions", () => {
     );
     expect(suggestion.original).to.equal("March 5, 2026.");
     expect(suggestion.replacement).to.equal("2026-03-05.");
-    expect(suggestion.title).to.equal("Use YYYY-MM-DD");
+    expect(suggestion.title).to.equal("Use ISO 8601");
   });
 
   it("uses UTF-16 offsets after characters outside the BMP", () => {
@@ -113,7 +113,7 @@ describe("findDateSuggestions", () => {
         dismissedSuggestions: [
           {
             original: "March 5, 2026.",
-            title: "Use YYYY-MM-DD",
+            title: "Use ISO 8601",
             explanation: "Earlier rewrite.",
             replacement: "March 5th, 2026.",
           },
@@ -208,7 +208,7 @@ describe("suggestions endpoint", () => {
         currentSuggestions: [
           {
             original: "March 5, 2026.",
-            title: "Use YYYY-MM-DD",
+            title: "Use ISO 8601",
             explanation: "Still open.",
             replacement: "2026-03-05.",
           },
@@ -216,7 +216,7 @@ describe("suggestions endpoint", () => {
         dismissedSuggestions: [
           {
             original: "on 5 April 2026.",
-            title: "Use YYYY-MM-DD",
+            title: "Use ISO 8601",
             explanation: "Rejected.",
             replacement: "2026-04-05.",
           },
@@ -237,7 +237,7 @@ describe("suggestions endpoint", () => {
         acceptedSuggestions: [
           {
             original: "March 5, 2026.",
-            title: "Use YYYY-MM-DD",
+            title: "Use ISO 8601",
             explanation: "Accepted earlier.",
             replacement: "2026-03-05.",
           },

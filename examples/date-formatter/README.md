@@ -95,8 +95,9 @@ Run these commands from the repository root. `config.ts` holds the two values th
    ```sh
    npx packs create examples/date-formatter/connector/connector.ts \
      --name "Date formatter connector"
-   npx packs upload examples/date-formatter/connector/connector.ts \
-   npx packs release examples/date-formatter/connector/connector.ts -y --notes "Initial release"
+   npx packs upload examples/date-formatter/connector/connector.ts
+   npx packs release examples/date-formatter/connector/connector.ts -y \
+     --notes "Initial release"
    ```
 
    Copy the `pack_id` it prints into the `config.ts` variable `ConnectorPackId`.
